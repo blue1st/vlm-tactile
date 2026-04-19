@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VLM-Tactile Pro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <header>
+                <h1>VLM-Tactile</h1>
+                <h2>AI Desktop Automation Agent</h2>
+            </header>
+
+            <div class="settings-grid">
+                <div class="input-group">
+                    <label>Ollama Server</label>
+                    <input id="serverAddress" class="small-input" value="http://localhost:11434">
+                </div>
+                <div class="input-group">
+                    <label>Model</label>
+                    <div class="select-wrapper">
+                        <select id="modelSelect">
+                            <option value="">Loading...</option>
+                        </select>
+                        <button id="refreshModels" class="refresh-btn">🔄</button>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Interval (sec)</label>
+                    <input id="intervalInput" type="number" class="small-input" value="3" min="1">
+                </div>
+            </div>
+
+            <div class="advanced-settings">
+                <div class="input-group">
+                    <label>Allowed Keys (comma separated)</label>
+                    <input id="allowedKeys" class="small-input" value="w, a, s, d, space, enter, escape" placeholder="e.g. w, a, s, d, space">
+                </div>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" id="allowRightClick" checked> Right Click</label>
+                    <label><input type="checkbox" id="allowDrag" checked> Drag & Drop</label>
+                    <label><input type="checkbox" id="allowScroll" checked> Scroll</label>
+                </div>
+            </div>
+
+            <div class="selection-control">
+                <div class="region-info">
+                    <span id="regionValue">Drag to select area</span>
+                    <button id="snapBtn" class="mini-icon-btn" title="Refresh Screenshot">📸</button>
+                </div>
+            </div>
+            <div class="preview-outer">
+                <div class="preview-container" id="previewContainer">
+                    <img id="screenshotPreview" alt="Screen Preview">
+                    <div id="selectionBox" class="selection-box">
+                        <div class="handle nw"></div>
+                        <div class="handle n"></div>
+                        <div class="handle ne"></div>
+                        <div class="handle e"></div>
+                        <div class="handle se"></div>
+                        <div class="handle s"></div>
+                        <div class="handle sw"></div>
+                        <div class="handle w"></div>
+                    </div>
+                    <div id="clickIndicator" class="click-indicator"></div>
+                    <div id="thinkingOverlay" class="thinking-overlay">
+                        <div class="thinking-content">
+                            <div class="thinking-brain">🧠</div>
+                            <span>Analyzing...</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="countdown-container" id="countdownContainer">
+                    <div class="countdown-bar" id="countdownBar"></div>
+                </div>
+            </div>
+            <div class="prompt-section">
+                <label>Base Thinking Instruction</label>
+                <textarea id="promptInput" class="base-prompt" readonly>Analyze this screen and decide the next action. 
+- You can click, right_click, drag_and_drop, scroll, or press keys.
+- OUTPUT MUST BE STRICT JSON.
+- If no action is needed, use {"action": "wait"}.</textarea>
+                
+                <label>Additional User Instructions</label>
+                <textarea id="additionalPrompt" class="user-prompt" placeholder="e.g. Focus on the red button, Move character with WASD..."></textarea>
+            </div>
+
+            <div id="status" class="status-box">
+                Ready...
+            </div>
+
+            <div class="controls">
+                <button id="startBtn">
+                    <span id="btnText">Start Automation</span>
+                    <div id="spinner" class="loading-spinner"></div>
+                </button>
+                <button id="benchmarkBtn" class="secondary">Launch VLM Benchmark</button>
+                <button id="stopBtn" class="secondary" style="display: none;">Stop</button>
+            </div>
+
+            <p class="requirements">
+                v1.2.0 | Always on Top Enabled
+            </p>
+        </div>
+    </div>
+    
+    <input type="hidden" id="regX" value="0">
+    <input type="hidden" id="regY" value="0">
+    <input type="hidden" id="regW" value="0">
+    <input type="hidden" id="regH" value="0">
+
+    <script src="renderer.js"></script>
+</body>
+</html>

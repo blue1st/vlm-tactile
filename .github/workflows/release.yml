@@ -1,0 +1,94 @@
+name: Build & Release Electron App
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        os: [macos, windows]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build binaries (macOS)
+        if: matrix.os == 'macos'
+        run: |
+          npm run dist -- --mac --arm64
+        env:
+          CI: true
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build binaries (Windows)
+        if: matrix.os == 'windows'
+        shell: pwsh
+        run: |
+          npm run dist -- --win --x64
+        env:
+          CI: true
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload macOS artifact
+        if: matrix.os == 'macos'
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-artifacts
+          path: dist/*.dmg
+
+      - name: Upload Windows artifact
+        if: matrix.os == 'windows'
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-artifacts
+          path: dist/*Setup*.exe
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          merge-multiple: true
+          path: ./release-assets
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+          files: ./release-assets/*
+
+      - name: Update Homebrew Tap
+        run: |
+          VERSION=${{ github.ref_name }}
+          VERSION=${VERSION#v}
+          mkdir -p dist
+          # Build artifacts from macos-artifacts name pattern
+          # productName was VLM-Tactile
+          cp ./release-assets/VLM-Tactile-${VERSION}-arm64.dmg dist/ || cp ./release-assets/VLM-Tactile-${VERSION}.dmg dist/
+          bash scripts/update-homebrew.sh ${VERSION}
+        env:
+          HOMEBREW_TAP_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}

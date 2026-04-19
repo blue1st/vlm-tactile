@@ -1,0 +1,52 @@
+{
+  "name": "vlm-tactile",
+  "version": "1.0.0",
+  "build": {
+    "appId": "com.blue1st.vlm-tactile",
+    "productName": "VLM-Tactile",
+    "mac": {
+      "identity": null,
+      "target": [
+        "dmg"
+      ]
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "directories": {
+      "output": "dist"
+    }
+  },
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dist": "electron-builder",
+    "release": "release-it"
+  },
+  "keywords": [],
+  "author": "blue1st",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@nut-tree-fork/nut-js": "^4.2.6",
+    "@release-it/conventional-changelog": "^8.0.2",
+    "electron": "^41.1.1",
+    "electron-builder": "^26.8.1",
+    "ollama": "^0.6.3",
+    "release-it": "^17.10.1"
+  },
+  "files": [
+    "main.js",
+    "index.html",
+    "renderer.js",
+    "style.css",
+    "benchmark.html",
+    "benchmark-script.js",
+    "benchmark-style.css"
+  ]
+}
+
