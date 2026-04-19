@@ -1,5 +1,7 @@
 
 
+## [1.1.1](https://github.com/blue1st/vlm-tactile/compare/v1.1.0...v1.1.1) (2026-04-19)
+
 # 1.1.0 (2026-04-19)
 
 
