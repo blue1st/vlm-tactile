@@ -1,5 +1,12 @@
 
 
+## [1.1.5](https://github.com/blue1st/vlm-tactile/compare/v1.1.4...v1.1.5) (2026-09-22)
+
+
+### Bug Fixes
+
+* **homebrew:** use postflight_steps instead of deprecated postflight ([6f5973f](https://github.com/blue1st/vlm-tactile/commit/6f5973fb9f7ed220c350714702dfdfe3f5a2991c))
+
 ## [1.1.4](https://github.com/blue1st/vlm-tactile/compare/v1.1.3...v1.1.4) (2026-04-19)
 
 
