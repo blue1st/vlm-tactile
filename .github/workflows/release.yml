@@ -84,6 +84,15 @@ jobs:
           prerelease: false
           files: ./release-assets/*
 
+      - name: Generate GitHub App Token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ vars.TAP_APP_ID }}
+          private-key: ${{ secrets.TAP_APP_PRIVATE_KEY }}
+          owner: blue1st
+          repositories: homebrew-taps
+
       - name: Update Homebrew Tap
         run: |
           VERSION=${{ github.ref_name }}
@@ -94,4 +103,4 @@ jobs:
           cp ./release-assets/VLM-Tactile-${VERSION}-arm64.dmg dist/ || cp ./release-assets/VLM-Tactile-${VERSION}.dmg dist/
           bash scripts/update-homebrew.sh ${VERSION}
         env:
-          HOMEBREW_TAP_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+          HOMEBREW_TAP_TOKEN: ${{ steps.app-token.outputs.token }}
