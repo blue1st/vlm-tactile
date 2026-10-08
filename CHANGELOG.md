@@ -1,5 +1,12 @@
 
 
+## [1.1.7](https://github.com/blue1st/vlm-tactile/compare/v1.1.6...v1.1.7) (2026-10-08)
+
+
+### Bug Fixes
+
+* **homebrew:** fix authentication for git clone in update script ([4a7d592](https://github.com/blue1st/vlm-tactile/commit/4a7d592fc2c14a2160861e2719ec6e6243e205b6))
+
 ## [1.1.6](https://github.com/blue1st/vlm-tactile/compare/v1.1.5...v1.1.6) (2026-10-08)
 
 
