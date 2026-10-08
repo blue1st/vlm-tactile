@@ -49,10 +49,10 @@ cask "vlm-tactile" do
   # Only support Apple Silicon (consistent with build script)
   depends_on arch: :arm64
 
-  postflight_steps do
-    run "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "#{appdir}/VLM-Tactile.app"]
-    run "/usr/bin/codesign", args: ["--force", "--deep", "--sign", "-", "#{appdir}/VLM-Tactile.app"]
-  end
+  caveats <<~EOS
+    VLM-Tactile is not notarized. If macOS blocks it from running, execute:
+      xattr -cr "/Applications/VLM-Tactile.app"
+  EOS
 
   zap trash: [
     "~/Library/Application Support/vlm-tactile",
