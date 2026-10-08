@@ -1,5 +1,12 @@
 
 
+## [1.1.6](https://github.com/blue1st/vlm-tactile/compare/v1.1.5...v1.1.6) (2026-10-08)
+
+
+### Bug Fixes
+
+* **homebrew:** replace postflight_steps with caveats ([e404225](https://github.com/blue1st/vlm-tactile/commit/e40422581ec68dda35e4a0a9fa3a30a0bdca4986))
+
 ## [1.1.5](https://github.com/blue1st/vlm-tactile/compare/v1.1.4...v1.1.5) (2026-09-22)
 
 
